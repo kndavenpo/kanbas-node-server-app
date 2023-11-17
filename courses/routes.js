@@ -53,6 +53,7 @@ function CourseRoutes(app) {
     res.sendStatus(204);
   });
 
+  // VERSION IN PROFESSOR GITn
   // app.put("/api/courses/:id", (req, res) => {
   //   const { id } = req.params;
   //   const index = Database.courses.findIndex((course) => course._id === id);

@@ -71,7 +71,7 @@ const Lab5 = (app) => {
     res.json(assignment);
   });
 
-  // Extra Credit
+  // 3.2.4 Extra Credit
   app.get("/a5/assignment/score/:newScore", (req, res) => {
     const {newScore} = req.params;
     assignment.score = newScore;
@@ -133,22 +133,42 @@ const Lab5 = (app) => {
   app.delete("/a5/todos/:id", (req, res) => {
     const { id } = req.params;
     const todo = todos.find((t) => t.id === parseInt(id));
+
+    // 3.5.4 Extra credit - Handling Errors
+    if (!todo) {
+      res.res
+          .status(404)
+          .json({ message:
+                `Unable to delete Todo with ID ${id}` });
+      return;
+    }
+
     todos.splice(todos.indexOf(todo), 1);
     res.sendStatus(200);
   });
 
   // 3.3.5 Deleting an Item from an Array
-  app.get("/a5/todos/:id/delete", (req, res) => {
-    const { id } = req.params;
-    const todo = todos.find((t) => t.id === parseInt(id));
-    todos.splice(todos.indexOf(todo), 1);
-    res.json(todos);
-  });
+  // app.get("/a5/todos/:id/delete", (req, res) => {
+  //   const { id } = req.params;
+  //   const todo = todos.find((t) => t.id === parseInt(id));
+  //   todos.splice(todos.indexOf(todo), 1);
+  //   res.json(todos);
+  // });
 
   // 3.5.3 Updating Todo
   app.put("/a5/todos/:id", (req, res) => {
     const { id } = req.params;
     const todo = todos.find((t) => t.id === parseInt(id));
+
+    // 3.5.4 Extra credit - Handling Errors
+    if (!todo) {
+      res.res
+          .status(404)
+          .json({ message:
+                `Unable to update Todo with ID ${id}` });
+      return;
+    }
+
     todo.title = req.body.title;
     todo.description = req.body.description;
     todo.due = req.body.due;
@@ -165,6 +185,22 @@ const Lab5 = (app) => {
     todo.title = title;
     res.json(todos);
   });
+
+  // 3.3.7 Extra Credit
+  app.get("/a5/todos/:id/completed/:completed", (req, res) => {
+    const { id, completed } = req.params;
+    const todo = todos.find((t) => t.id === parseInt(id));
+    todo.completed = completed;
+    res.json(todos);
+  });
+
+  app.get("/a5/todos/:id/description/:description", (req, res) => {
+    const { id, description } = req.params;
+    const todo = todos.find((t) => t.id === parseInt(id));
+    todo.description = description;
+    res.json(todos);
+  });
+
 
 }
 export default Lab5;
